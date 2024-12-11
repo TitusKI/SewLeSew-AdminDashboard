@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import OverviewPage from "./pages/OverviewPage";
-import ProductPage from "./pages/ProductPage";
+import CampaignPage from "./pages/CampaignPage";
 import Sidebar from "./components/Sidebar";
 import "./index.css";
+import CampaignPage from "./pages/CampaignPage";
 function App() {
   return (
     <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
@@ -15,7 +16,7 @@ function App() {
       <Sidebar />
       <Routes>
         <Route path="/" element={<OverviewPage />} />
-        <Route path="/products" element={<ProductPage />} />
+        <Route path="/campaigns" element={<CampaignPage />} />
       </Routes>
     </div>
   );
