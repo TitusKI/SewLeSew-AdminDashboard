@@ -3,7 +3,9 @@ import OverviewPage from "./pages/OverviewPage";
 import CampaignPage from "./pages/CampaignPage";
 import Sidebar from "./components/Sidebar";
 import "./index.css";
-import CampaignPage from "./pages/CampaignPage";
+import UsersPage from "./pages/UserPage";
+import DonationsPage from "./pages/DonationsPage";
+import TransactionsPage from "./pages/TransactionsPage";
 function App() {
   return (
     <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
@@ -17,6 +19,9 @@ function App() {
       <Routes>
         <Route path="/" element={<OverviewPage />} />
         <Route path="/campaigns" element={<CampaignPage />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/donations" element={<DonationsPage />} />
+        <Route path="/transactions" element={<TransactionsPage />} />
       </Routes>
     </div>
   );
