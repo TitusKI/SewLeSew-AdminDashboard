@@ -1,9 +1,9 @@
 import {
   BarChart2,
   CreditCard,
-  FileText,
   Layers,
   Menu,
+  PiggyBankIcon,
   Settings,
   TrendingUp,
   Users,
@@ -34,16 +34,16 @@ const SIDEBAR_ITEMS = [
     href: "/users",
   },
   {
-    name: "Transactions",
-    icon: CreditCard,
+    name: "Donations",
+    icon: PiggyBankIcon,
     color: "#10B981",
-    href: "/transactions",
+    href: "/donations",
   },
   {
-    name: "Reports",
-    icon: FileText,
+    name: "Transactions",
+    icon: CreditCard,
     color: "#6366F1",
-    href: "/reports",
+    href: "/transactions",
   },
   {
     name: "Analytics",
