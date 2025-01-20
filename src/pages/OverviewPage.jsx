@@ -5,6 +5,7 @@ import { FileText, Layers, User, UserPlus } from "lucide-react";
 import StatCard from "../common/StatCard";
 import CampaignOverviewChart from "../Overview/CampaignOverviewChart";
 import CategoryDistributionChart from "../Overview/CategoryDistributionChart";
+import CampaignChannelChart from "../Overview/CampaignChannelChart";
 const OverviewPage = () => {
   return (
     <div className="flex-1 overflow-auto relative z-10">
@@ -42,6 +43,7 @@ const OverviewPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <CampaignOverviewChart />
           <CategoryDistributionChart />
+          <CampaignChannelChart />
         </div>
       </main>
     </div>
