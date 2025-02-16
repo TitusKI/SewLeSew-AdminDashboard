@@ -1,15 +1,5 @@
-import {
-  BarChart2,
-  CreditCard,
-  Layers,
-  Menu,
-  PiggyBankIcon,
-  Settings,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { BarChart2, Layers, Menu, PiggyBankIcon, Users } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
-import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -39,24 +29,24 @@ const SIDEBAR_ITEMS = [
     color: "#10B981",
     href: "/donations",
   },
-  {
-    name: "Transactions",
-    icon: CreditCard,
-    color: "#6366F1",
-    href: "/transactions",
-  },
-  {
-    name: "Analytics",
-    icon: TrendingUp,
-    color: "#3B82F6",
-    href: "/analytics",
-  },
-  {
-    name: "Settings",
-    icon: Settings,
-    color: "#6EE787",
-    href: "/settings",
-  },
+  // {
+  //   name: "Transactions",
+  //   icon: CreditCard,
+  //   color: "#6366F1",
+  //   href: "/transactions",
+  // },
+  // {
+  //   name: "Analytics",
+  //   icon: TrendingUp,
+  //   color: "#3B82F6",
+  //   href: "/analytics",
+  // },
+  // {
+  //   name: "Settings",
+  //   icon: Settings,
+  //   color: "#6EE787",
+  //   href: "/settings",
+  // },
 ];
 const Sidebar = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
