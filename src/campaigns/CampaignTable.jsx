@@ -1,60 +1,151 @@
 import { motion } from "framer-motion";
-import { Edit, Search, Trash2 } from "lucide-react";
+import { useEffect } from "react";
 import { useState } from "react";
+import { getCampaigns, changeCampaignStatus } from "../service/campaign";
+import { FaCheck, FaTimes } from "react-icons/fa";
+import { Carousel, CarouselItem } from "../components/Carousel";
 
-const CAMPAIGN_DATA = [
-  {
-    id: 1,
-    name: "Library Build in Our School",
-    category: "Education",
-    raised: 400000,
-    goal: 500000,
-  },
-  {
-    id: 2,
-    name: "Clean Water Initiative",
-    category: "Health",
-    raised: 120000,
-    goal: 150000,
-  },
-  {
-    id: 3,
-    name: "Community Garden Project",
-    category: "Environment",
-    raised: 60000,
-    goal: 100000,
-  },
-  {
-    id: 4,
-    name: "School Supplies Drive",
-    category: "Education",
-    raised: 20000,
-    goal: 50000,
-  },
-  {
-    id: 5,
-    name: "Disaster Relief Fund",
-    category: "Emergency",
-    raised: 300000,
-    goal: 400000,
-  },
-];
+const ImageModal = ({ images, onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+      <div
+        className="bg-white p-4 rounded-lg w-96"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Carousel>
+          {images?.length > 0 &&
+            images.map((img) => (
+              <CarouselItem key={img.id}>
+                <img
+                  src={img.url}
+                  alt="Images"
+                  className="w-full h-96 object-cover rounded-lg border"
+                />
+              </CarouselItem>
+            ))}
+        </Carousel>{" "}
+        <button
+          className="mt-4 w-full bg-red-500 text-white py-2 rounded-md"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+const DocsModal = ({ docs, onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+      <div
+        className="bg-white p-4 rounded-lg w-96"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Carousel>
+          {docs?.length > 0 &&
+            docs.map((doc) => (
+              <div key={doc.id}>
+                {doc.url.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                  <CarouselItem>
+                    <img
+                      src={doc.url}
+                      alt="Images"
+                      className="w-full h-96 object-cover rounded-lg border"
+                    />
+                  </CarouselItem>
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <p className="text-black mb-2">PDF Document</p>
+                    <iframe
+                      src={doc.url}
+                      className="w-full h-96 border rounded-md shadow-lg"
+                      title="PDF Preview"
+                    />
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400"
+                    >
+                      Open PDF in New Tab
+                    </a>
+                  </div>
+                )}
+              </div>
+            ))}
+        </Carousel>{" "}
+        <button
+          className="mt-4 w-full bg-red-500 text-white py-2 rounded-md"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const CampaignTable = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCampaigns, setFilteredCampaigns] = useState(CAMPAIGN_DATA);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [filteredCampaigns, setFilteredCampaigns] = useState(CAMPAIGN_DATA);
+  const [campaigns, setCampaigns] = useState([]);
 
-  const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
-    const filtered = CAMPAIGN_DATA.filter(
-      (campaign) =>
-        campaign.name.toLowerCase().includes(term) ||
-        campaign.category.toLowerCase().includes(term)
-    );
+  const [refreshKey, setRefreshKey] = useState(0);
 
-    setFilteredCampaigns(filtered);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedDocs, setSelectedDocs] = useState([]);
+
+  const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const refreshData = () => setRefreshKey((prev) => prev + 1);
+  const handleStatusChange = async (id, status) => {
+    try {
+      const response = await changeCampaignStatus(id, status);
+      console.log("Status updated:", response);
+
+      // ✅ Refresh the data after updating status (optional)
+      // fetchCampaigns();
+      refreshData(); // 🔥 Call this to refetch
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
+
+  const handleInspect = (images) => {
+    setSelectedImages(images);
+    setIsModalOpen(true);
+  };
+
+  const handleDocsInspect = (docs) => {
+    setSelectedDocs(docs);
+    setIsDocsModalOpen(true);
+  };
+
+  // const handleSearch = (e) => {
+  //   const term = e.target.value.toLowerCase();
+  //   setSearchTerm(term);
+  //   const filtered = CAMPAIGN_DATA.filter(
+  //     (campaign) =>
+  //       campaign.name.toLowerCase().includes(term) ||
+  //       campaign.category.toLowerCase().includes(term)
+  //   );
+
+  //   setFilteredCampaigns(filtered);
+  // };
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const res = await getCampaigns(1, 10);
+        setCampaigns(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCampaigns();
+  }, [refreshKey]);
 
   return (
     <motion.div
@@ -65,7 +156,7 @@ const CampaignTable = () => {
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-gray-100">Campaign List</h2>
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="text"
             placeholder="Search campaigns..."
@@ -74,7 +165,7 @@ const CampaignTable = () => {
             value={searchTerm}
           />
           <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-        </div>
+        </div> */}
       </div>
 
       <div className="overflow-x-auto">
@@ -82,16 +173,28 @@ const CampaignTable = () => {
           <thead>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Name
+                Title
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Category
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Funds Raised
+                Target
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Goal
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Tin
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                License Number
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Images
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Documents
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Actions
@@ -100,7 +203,7 @@ const CampaignTable = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {filteredCampaigns.map((campaign) => (
+            {campaigns.map((campaign) => (
               <motion.tr
                 key={campaign.id}
                 initial={{ opacity: 0 }}
@@ -108,33 +211,104 @@ const CampaignTable = () => {
                 transition={{ duration: 0.3 }}
               >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
-                  {campaign.name}
+                  {campaign.title}
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  {campaign.category}
+                  <div className="text-xs">
+                    {campaign.category.split("_").join(" ")}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  <div className="text-xs">
+                    {campaign.business
+                      ? campaign.business.fullName
+                      : campaign.charity.fullName}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  <div className="text-xs">{campaign.goalAmount}</div>
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  ${campaign.raised.toLocaleString()}
+                  <div className="text-xs">
+                    {campaign.business
+                      ? campaign.business.tinNumber
+                      : campaign.charity.isOrganization
+                      ? campaign.charity.tinNumber
+                      : "Personal"}
+                  </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  <div className="text-xs">
+                    {campaign.business
+                      ? campaign.business.tinNumber
+                      : campaign.charity.isOrganization
+                      ? campaign.charity.tinNumber
+                      : "Personal"}
+                  </div>
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  ${campaign.goal.toLocaleString()}
-                </td>
-
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  <button className="text-indigo-400 hover:text-indigo-300 mr-2">
-                    <Edit size={18} />
+                  <button
+                    className="px-3 py-1 border border-blue-300 rounded-md hover:bg-blue-300 hover:text-blue-950 active:bg-blue-200 duration-200"
+                    onClick={() => handleInspect(campaign.campaignMedia)}
+                  >
+                    Inspect
                   </button>
-                  <button className="text-red-400 hover:text-red-300">
-                    <Trash2 size={18} />
+                </td>
+
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  <button
+                    className="px-3 py-1 border border-blue-300 rounded-md hover:bg-blue-300 hover:text-blue-950 active:bg-blue-200 duration-200"
+                    onClick={() =>
+                      handleDocsInspect(
+                        campaign.business
+                          ? campaign.business.docs
+                          : campaign.charity.docs
+                      )
+                    }
+                  >
+                    Inspect
+                  </button>{" "}
+                </td>
+
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  <button
+                    className="text-indigo-400 hover:text-indigo-300 mr-2"
+                    onClick={() => handleStatusChange(campaign.id, "ACTIVE")}
+                  >
+                    <FaCheck size={18} />
+                  </button>
+                  <button
+                    className="text-red-400 hover:text-red-300"
+                    onClick={() => handleStatusChange(campaign.id, "REJECTED")}
+                  >
+                    <FaTimes size={18} />
                   </button>
                 </td>
               </motion.tr>
             ))}
           </tbody>
         </table>
+        {isModalOpen && (
+          <ImageModal
+            images={selectedImages}
+            onClose={() => {
+              console.log(selectedImages);
+              setIsModalOpen(false);
+            }}
+          />
+        )}
+        {isDocsModalOpen && (
+          <DocsModal
+            docs={selectedDocs}
+            onClose={() => {
+              console.log(selectedImages);
+              setIsDocsModalOpen(false);
+            }}
+          />
+        )}
       </div>
     </motion.div>
   );
