@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "../common/Header";
 import { motion } from "framer-motion";
 import { FileText, Layers, User, UserPlus } from "lucide-react";
@@ -10,6 +9,7 @@ const OverviewPage = () => {
   return (
     <div className="flex-1 overflow-auto relative z-10">
       <Header title="Overview" />
+
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {/* STATS */}
         <motion.div
@@ -21,21 +21,21 @@ const OverviewPage = () => {
           <StatCard
             name="New Users"
             icon={UserPlus}
-            value="4"
+            value="3"
             color="#8B5CF6"
           />
-          <StatCard name="Total Users" icon={User} value="24" color="#6366F1" />
+          <StatCard name="Total Users" icon={User} value="12" color="#6366F1" />
 
           <StatCard
             name="Total Campaigns"
             icon={Layers}
-            value="20"
+            value="16"
             color="#FC4899"
           />
           <StatCard
-            name="Total Reports"
+            name="Total Donations"
             icon={FileText}
-            value="34"
+            value="42"
             color="#10B981"
           />
         </motion.div>
