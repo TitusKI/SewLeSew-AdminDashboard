@@ -14,10 +14,8 @@ import {
 const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
 
 const CAMPAIGN_CHANNAEL_DATA = [
-  { name: "Website", value: 45600 },
-  { name: "Mobile App", value: 38200 },
-  { name: "Marketplace", value: 29800 },
-  { name: "Social Media", value: 18700 },
+  { name: "Website", value: 12 },
+  { name: "Mobile App", value: 8 },
 ];
 
 const CampaignChannelChart = () => {

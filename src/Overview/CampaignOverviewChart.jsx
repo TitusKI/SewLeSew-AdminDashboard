@@ -9,18 +9,18 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 const campaignsData = [
-  { name: "Jul", campaigns: 4200 },
-  { name: "Aug", campaigns: 3800 },
-  { name: "Sep", campaigns: 5100 },
-  { name: "Oct", campaigns: 4600 },
-  { name: "Nov", campaigns: 5400 },
-  { name: "Dec", campaigns: 7200 },
-  { name: "Jan", campaigns: 6100 },
-  { name: "Feb", campaigns: 5900 },
-  { name: "Mar", campaigns: 6800 },
-  { name: "Apr", campaigns: 6300 },
-  { name: "May", campaigns: 7100 },
-  { name: "Jun", campaigns: 7500 },
+  // { name: "Jul", campaigns: 4200 },
+  // { name: "Aug", campaigns: 3800 },
+  // { name: "Sep", campaigns: 5100 },
+  // { name: "Oct", campaigns: 4600 },
+  // { name: "Nov", campaigns: 5400 },
+  { name: "Dec", campaigns: 7 },
+  { name: "Jan", campaigns: 3 },
+  { name: "Feb", campaigns: 15 },
+  // { name: "Mar", campaigns: 5 },
+  // { name: "Apr", campaigns: 6300 },
+  // { name: "May", campaigns: 7100 },
+  // { name: "Jun", campaigns: 7500 },
 ];
 const CampaignOverviewChart = () => {
   return (

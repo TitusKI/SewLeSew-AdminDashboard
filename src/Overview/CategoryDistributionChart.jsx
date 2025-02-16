@@ -7,13 +7,21 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
+const COLORS = [
+  "#6366F1",
+  "#8B5CF6",
+  "#EC4899",
+  "#10B981",
+  "#F59E0B",
+  "#b01200",
+];
 const categoryData = [
-  { name: "Health", value: 4500 },
-  { name: "Education", value: 3200 },
-  { name: "Environment", value: 2800 },
-  { name: "Community", value: 2100 },
-  { name: "Others", value: 1900 },
+  { name: "MEDICAL", value: 21 },
+  { name: "STARTUP FUNDING", value: 10 },
+  { name: "EDUCATION", value: 18 },
+  { name: "LEGAL", value: 6 },
+  { name: "ELDERLY ASSISTANCE", value: 10 },
+  { name: "Others", value: 9 },
 ];
 const CategoryDistributionChart = () => {
   return (
